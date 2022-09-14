@@ -1,0 +1,18 @@
+[
+    {
+        "id": "ee0e7555-55b6-451a-b094-99fe780b32d1",
+        "Nombre": "Shigueru",
+        "Raza": "Humanos",
+        "Clase": "Druida",
+        "Vida": "1350",
+        "Mana": "925"
+    },
+    {
+        "id": "c8701c22-d069-4ccf-8fd8-e7fc4a23a34a",
+        "Nombre": "thrall",
+        "Raza": "Orcos",
+        "Clase": "Cham\u00e1n",
+        "Vida": "725",
+        "Mana": "895"
+    }
+]
