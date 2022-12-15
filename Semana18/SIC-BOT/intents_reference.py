@@ -9,7 +9,7 @@ def guardar_json(datos):
 
 #dic={"intents:[[{"key":["valores"]}],"dic2"]}
 
-def start():
+def start_intents():
 
     biblioteca={"intents":
                 [
@@ -78,4 +78,4 @@ def start():
 
 # Driver program
 if __name__ == '__main__':       
-    start()
+    start_intents()
