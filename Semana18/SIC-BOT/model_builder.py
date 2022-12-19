@@ -6,6 +6,7 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Conv2D, Flatten, Dense,Dropout
 from tensorflow.keras.optimizers import SGD
 from nltk.stem import SnowballStemmer
+stemmer = SnowballStemmer('spanish')
 
 ignore_words=["?","¿","!","¡"]
 data_file= open("intents.json").read() #aqui cargo el archivo en formato json
@@ -41,7 +42,7 @@ def tokenizer():
 
 def lematizer(words,classes,documents):
 
-    stemmer = SnowballStemmer('spanish')
+    
     #base de datos, verdad absoluta de las palabras -> REFERENCIA
     words = [stemmer.stem(w.lower()) for w in words if w not in ignore_words]
 
@@ -98,9 +99,9 @@ def training(words,classes,documents):
 
 
 def model_builder(x_train,y_train):
-
+ 
     model = Sequential()
-
+    print(x_train)
     #añadimos capas a la red
     model.add(Dense(128, input_shape=(len(x_train[0]),), activation='relu')) #añadimos 1 capa: entrada de datos
     model.add(Dropout(0.5))

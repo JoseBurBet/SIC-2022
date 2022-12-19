@@ -1,0 +1,11 @@
+en model builder mover stemmer = SnowballStemmer('spanish') de la funcion lematizer hast arriba
+
+
+en chatbot.py
+# _________________________________MAIN________________________
+import intents_reference
+import model_builder
+
+# Driver program
+if __name__ == '__main__':       
+    start_intents()      # aqui es start_bot

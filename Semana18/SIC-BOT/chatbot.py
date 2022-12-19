@@ -40,6 +40,7 @@ def bow (sentence,words,show_details=True): #lazo entre lo que ingreso el usuari
 def predict_class(sentence,model):
     # filtrar las predicciones  por debajo del umbral
     p = bow(sentence,words,show_details=False) # retorno del bag # p porque es el preprocesamiento
+    print("todo ok")
     res = model.predict(np.array([p]))[0] # res es la eficacia, o probabilidad de que la palabra sea de algun tipo
     #model.predict me retorna el % eficacia  , ejm 60% saludo
     # [0] es la palabra , [1] es el tag
@@ -89,7 +90,7 @@ def chatbot_response(text):
 def start_bot():
     
     texto_us="" # lo que ingresa el usuario
-    print(" bienvenido, para salir  escriba salir \n")
+    print(" bienvenido, para salir  escriba salir :")
 
     while texto_us!="salir":
         texto_us=input()
@@ -104,6 +105,6 @@ import model_builder
 
 # Driver program
 if __name__ == '__main__':       
-    start_intents()
+    start_bot()
     start_model()
     start_bot()    
