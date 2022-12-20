@@ -25,7 +25,7 @@ def bow (sentence,words,show_details=True): #lazo entre lo que ingreso el usuari
     sentence_words=clean_up_sentence(sentence)
     
     bag=[0]*len(words)
-    
+    #print("BAG TEST: ",len(bag)," : ",len(words)) # de aqui viene el problema
     for i in sentence_words:
         for j,w in enumerate(words):
             if w==i: # asigna 1 si la palabra actual está en la posición del vocabulario 
@@ -39,8 +39,11 @@ def bow (sentence,words,show_details=True): #lazo entre lo que ingreso el usuari
 
 def predict_class(sentence,model):
     # filtrar las predicciones  por debajo del umbral
+    #print("words:", len(words))
+    #print("todo ok")
+    #print(p)
     p = bow(sentence,words,show_details=False) # retorno del bag # p porque es el preprocesamiento
-    print("todo ok")
+    
     res = model.predict(np.array([p]))[0] # res es la eficacia, o probabilidad de que la palabra sea de algun tipo
     #model.predict me retorna el % eficacia  , ejm 60% saludo
     # [0] es la palabra , [1] es el tag
@@ -101,10 +104,11 @@ def start_bot():
     
 # _________________________________MAIN________________________
 import intents_reference
-import model_builder
+from model_builder import start_model
+
 
 # Driver program
 if __name__ == '__main__':       
-    start_bot()
+    
     start_model()
     start_bot()    

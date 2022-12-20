@@ -21,16 +21,18 @@ def start():
 #__________________________ de aqui para abajo en consola______________
     
     import pip
-    #pip.main(["install","numpy==1.16.2"])
-    #pip.main(["install","nltk==3.4.5"])
-    #pip.main(["install","tensorboard==2.2.0"])
-    #pip.main(["install","tensorflow-estimator==2.2.0"])
-            #pip.main(["install","keras==2.3.1"])
-    #pip.main(["install","keras==2.10.0"])
-    #pip.main(["install","Keras-Preprocessing==1.1.2"])
-    #pip.main(["install","tensorflow==2.2"])
     
-    pip.main(["list"])
+    
+    #pip.main(["list"])
+
+    pip.main(["install","numpy==1.21.5"])
+    pip.main(["install","nltk==3.7"])
+    pip.main(["install","tensorboard==2.10.1"])
+    pip.main(["install","tensorflow-estimator==2.10.0"])
+    pip.main(["install","keras==2.10.0"])
+    pip.main(["install","Keras-Preprocessing==1.1.2"])
+    pip.main(["install","tensorflow==2.10.1"])
+
 
     
 

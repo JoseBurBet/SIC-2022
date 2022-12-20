@@ -6,13 +6,13 @@ Requisitos:
     # python version : 3.9.12
     # libraries:
 
-    #keras                         2.10.0
-    #Keras-Preprocessing           1.1.2
-    #nltk                          3.7
-    #numpy                         1.21.5
-    #tensorflow                    2.10.1
-    #tensorflow-estimator          2.10.0
-    #tensorflow-io-gcs-filesystem  0.27.0
+    numpy==1.21.5
+    nltk==3.7
+    tensorboard==2.10.1
+    tensorflow-estimator==2.10.0
+    keras==2.10.0
+    Keras-Preprocessing==1.1.2
+    tensorflow==2.10.1
     
     
 

@@ -45,11 +45,14 @@ def lematizer(words,classes,documents):
     
     #base de datos, verdad absoluta de las palabras -> REFERENCIA
     words = [stemmer.stem(w.lower()) for w in words if w not in ignore_words]
-
+    words2=words
+    
+    print("words despues de lematizar:", len(words))
 
     pickle.dump(words,open("words.pkl","wb"))
     pickle.dump(classes,open("classes.pkl","wb"))
 
+    return words2
 
 #______________________preprocesamiento (training data)
 
@@ -72,6 +75,7 @@ def training(words,classes,documents):
 
         pattern_words= [stemmer.stem(word.lower()) for word in pattern_words  if word not in ignore_words ]
 
+        #print("words de modelo: ",len(words))
 
         # si la palabra coincide introduzco 1, en caso contrario 0
 
@@ -87,9 +91,14 @@ def training(words,classes,documents):
 
         training.append([bag,output_row])
 
+    #print("training antes de np")
+    #print(training)
 
     training=np.array(training) # cambiamos la lista de listas a un formato numpy.array
 
+    #print("training despues de np")
+    #print(training)
+    
     x_train= list(training[:,0]) #asi porque estamos en formato numpy.array ||| training[inicio:fin,index]
     y_train= list(training[:,1])  
     
@@ -101,7 +110,7 @@ def training(words,classes,documents):
 def model_builder(x_train,y_train):
  
     model = Sequential()
-    print(x_train)
+    #print(len(x_train[0]))
     #añadimos capas a la red
     model.add(Dense(128, input_shape=(len(x_train[0]),), activation='relu')) #añadimos 1 capa: entrada de datos
     model.add(Dropout(0.5))
@@ -123,8 +132,9 @@ def model_builder(x_train,y_train):
 def start_model():
     
     words,classes,documents=tokenizer()
-    lematizer(words,classes,documents)
-    x_train,y_train=training(words,classes,documents)
+    #print("words:", len(words))
+    words2=lematizer(words,classes,documents)
+    x_train,y_train=training(words2,classes,documents)
     model_builder(x_train,y_train)
 
 
