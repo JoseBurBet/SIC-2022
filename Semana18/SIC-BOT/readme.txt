@@ -13,6 +13,7 @@ Requisitos:
     keras==2.10.0
     Keras-Preprocessing==1.1.2
     tensorflow==2.10.1
+    selenium 4.7.2
     
     
 
