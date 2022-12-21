@@ -103,12 +103,12 @@ def start_bot():
     
     
 # _________________________________MAIN________________________
-import intents_reference
+from intents_reference import start_intents
 from model_builder import start_model
 
 
 # Driver program
 if __name__ == '__main__':       
-    
+    start_intents()
     start_model()
     start_bot()    

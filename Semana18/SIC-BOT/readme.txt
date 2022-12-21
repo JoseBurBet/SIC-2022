@@ -19,4 +19,4 @@ Requisitos:
 Instrucciones:
 
 ejecute el archivo requirements en python 
-ejecute el archivo intents_reference.py 
+ejecute el .bat

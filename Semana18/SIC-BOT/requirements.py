@@ -12,6 +12,7 @@
     #tensorflow-io-gcs-filesystem  0.27.0
     
 def start():
+    #intalacion en jupyter
     #import sys 
     #!{sys.executable} -m pip install tensorflow
     #!{sys.executable} -m pip install keras
@@ -36,14 +37,14 @@ def start():
 
     
 
-    #import nltk
-    #nltk.download('punkt')
-    #nltk.download('wordnet')
-    #nltk.download('universal_tagset')
-    #nltk.download('spanish_grammars')
-    #nltk.download('tagsets')
-    #nltk.download('stopwords') # faltaaaaa
-    #nltk.download('omw-1.4') #faltaaaa
+    import nltk
+    nltk.download('punkt')
+    nltk.download('wordnet')
+    nltk.download('universal_tagset')
+    nltk.download('spanish_grammars')
+    nltk.download('tagsets')
+    nltk.download('stopwords') # faltaaaaa
+    nltk.download('omw-1.4') #faltaaaa
 
         
     

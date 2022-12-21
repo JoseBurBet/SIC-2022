@@ -45,7 +45,7 @@ def lematizer(words,classes,documents):
     
     #base de datos, verdad absoluta de las palabras -> REFERENCIA
     words = [stemmer.stem(w.lower()) for w in words if w not in ignore_words]
-    words2=words
+    words2=words #cuando tiene 52 palabras
     
     print("words despues de lematizar:", len(words))
 
