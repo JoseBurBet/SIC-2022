@@ -6,6 +6,7 @@ from selenium import webdriver
 #driver = webdriver.Edge(EdgeChromiumDriverManager().install())
 
 
+# conexion con web.whatsapp a traves del driver usando selenium
 driver = webdriver.Edge(executable_path='./msedgedriver.exe')
 executor_url = driver.command_executor._url
 session_id = driver.session_id
@@ -19,17 +20,16 @@ with open("./whatsapp_session.txt", "w") as text_file:
     text_file.write(session_id)
 
 
-def create_driver_session(session_id, executor_url):
-    from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
-
-    org_command_execute = RemoteWebDriver.execute
-
-    def new_command_execute(self, command, params=None):
+def new_command_execute(self, command, params=None):
         if command == "newSession":
             return {'success': 0, 'value': None, 'sessionId': session_id}
         else:
             return org_command_execute(self, command, params)
 
+def create_driver_session(session_id, executor_url):
+    from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+
+    org_command_execute = RemoteWebDriver.execute
     RemoteWebDriver.execute = new_command_execute
 
     new_driver = webdriver.Remote(command_executor=executor_url, desired_capabilities={})
