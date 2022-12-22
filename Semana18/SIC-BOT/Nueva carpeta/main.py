@@ -42,9 +42,38 @@ def whatsapp_bot_init():
     driver = crear_driver_session()
 
 
+def buscar_chats():
+    print("BUSCANDO CHATS")
+    #sleep(30)
+    print(driver.find_elements(By.CLASS_NAME,"zaKsw"))
+    #test=0
+    if len(driver.find_elements(By.CLASS_NAME,"zaKsw")) == 0: #cuando ninguno esta abierto (ventana de la derecha)
+        print("CHAT ABIERTO")
+        message = identificar_mensaje()
+        
+        if message != None:
+            return True
+    else:
+    chats = driver.find_elements(By.NAME,"_10e6M") # el cuadro del primer chat a la izquierda
+
+    for chat in chats:
+        print("DETECTANDO MENSAJES SIN LEER")
+
+        chats_mensajes = chat.find_elements(By.NAME,"_1pJ9J") # el circulo de mensaje no leido
+
+        if len(chats_mensajes) == 0:
+            print("CHATS ATENDIDOS")
+            continue
+
+        chat.click()
+        return True
+    return False
+
+
 
 # _________________________________MAIN________________________
 
 # Driver program
 if __name__ == '__main__':       
-    whatsapp_boot_init()
+    whatsapp_bot_init()
+    buscar_chats()
