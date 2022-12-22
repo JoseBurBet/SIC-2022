@@ -44,30 +44,43 @@ def whatsapp_bot_init():
 
 def buscar_chats():
     print("BUSCANDO CHATS")
-    #sleep(30)
-    print(driver.find_elements(By.CLASS_NAME,"zaKsw"))
-    #test=0
+    sleep(5)
+    #print(driver.find_elements(By.CLASS_NAME,"zaKsw"))
+    print(len(driver.find_elements(By.CLASS_NAME,"_1RAKT")))
+    # si la longitud es 0 es porque tengo chat abierto, si es dif de 0 es porque  no hay chat abierto
     if len(driver.find_elements(By.CLASS_NAME,"zaKsw")) == 0: #cuando ninguno esta abierto (ventana de la derecha)
+        
         print("CHAT ABIERTO")
         message = identificar_mensaje()
-        
+                                
         if message != None:
             return True
     else:
-    chats = driver.find_elements(By.NAME,"_10e6M") # el cuadro del primer chat a la izquierda
+        #chats = driver.find_elements(By.NAME,"_1Oe6M")
+        chats = driver.find_elements(By.CLASS_NAME,"_1Oe6M") # el cuadro del primer chat a la izquierda
+                
+        #print("len chats: ",len(chats))
+        for chat in chats:
+            print("DETECTANDO MENSAJES SIN LEER")
 
-    for chat in chats:
-        print("DETECTANDO MENSAJES SIN LEER")
-
-        chats_mensajes = chat.find_elements(By.NAME,"_1pJ9J") # el circulo de mensaje no leido
-
-        if len(chats_mensajes) == 0:
-            print("CHATS ATENDIDOS")
-            continue
-
-        chat.click()
-        return True
+            chats_mensajes = chat.find_elements(By.CLASS_NAME,"_1pJ9J") # el circulo de mensaje no leido
+            #print("mensajes sin leer: ",len(chats_mensajes))
+            #print(chat)
+            if len(chats_mensajes) == 0:
+                print("CHATS ATENDIDOS")
+                continue
+            else:
+                #print("else")
+                chat.click() # abre el chat
+                return True
     return False
+
+        # pruebas del profe, ignoren esto :v
+        #chats = driver.find_elements(By.CLASS_NAME,"_3uIPm WYyr1")
+        #chats = driver.find_elements(By.CLASS_NAME,"_3Bc7H _20c87")
+        #chats = driver.find_elements(By.CLASS_NAME,"lhggkp7q ln8gz9je rx9719la")
+        #chats = driver.find_elements(By.CLASS_NAME,"_3GlyB")
+    
 
 
 
