@@ -62,6 +62,7 @@ def buscar_chats():
         #print("len chats: ",len(chats))
         for chat in chats:
             print("DETECTANDO MENSAJES SIN LEER")
+            print(len(chats))
 
             chats_mensajes = chat.find_elements(By.CLASS_NAME,"_1pJ9J") # el circulo de mensaje no leido
             #print("mensajes sin leer: ",len(chats_mensajes))
@@ -75,11 +76,24 @@ def buscar_chats():
                 return True
     return False
 
-        # pruebas del profe, ignoren esto :v
-        #chats = driver.find_elements(By.CLASS_NAME,"_3uIPm WYyr1")
-        #chats = driver.find_elements(By.CLASS_NAME,"_3Bc7H _20c87")
-        #chats = driver.find_elements(By.CLASS_NAME,"lhggkp7q ln8gz9je rx9719la")
-        #chats = driver.find_elements(By.CLASS_NAME,"_3GlyB")
+def identificar_mensaje():
+    element_box_message = driver.find_elements(By.CLASS_NAME,"_22Msk") # todos los cuadritos de mensajes 
+    #print("mensajes:", element_box_message)
+    posicion = len(element_box_message) -1
+    
+    #con el color nos damos cuenta si hablo yo o el usuario
+    color =  element_box_message[posicion].value_of_css_property('background-color') # puede variar en el modo dark
+    print("posicion: ",posicion)
+    print("color: ",color) 
+    if color == "rgba(220, 248, 198, 1)" or color == "rgba(5, 97, 98, 1)": #estos 2 son tanto para modo blanco como modo dark
+        print("CHAT ATENDIDO")
+        return
+    #element_message = element_box_message[posicion].find_element(By.CLASS_NAME,"i0jNr selectable-text copyable-text")
+    element_message = element_box_message[posicion].find_elements(By.CLASS_NAME,"_1Gy50") # texto dentro de la caja
+    print("mensaje:" ,element_message)
+    message = element_message[0].text.lower().strip()
+    print("MENSAJE RECIBIDO :", message)
+    return normalizar(message)        
     
 
 
