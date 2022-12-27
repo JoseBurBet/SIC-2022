@@ -76,26 +76,52 @@ def buscar_chats():
                 return True
     return False
 
+def normalizar(message: str):
+    # elimina tildes y normaliza para evitar problemas
+    message = re.sub(
+        r"([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+", r"\1", 
+        normalize( "NFD", message), 0, re.I
+    )
+
+    # -> NFC
+    return normalize( 'NFC', message)
+
 def identificar_mensaje():
     element_box_message = driver.find_elements(By.CLASS_NAME,"_22Msk") # todos los cuadritos de mensajes 
-    #print("mensajes:", element_box_message)
+    print("mensajes:", element_box_message)
     posicion = len(element_box_message) -1
     
     #con el color nos damos cuenta si hablo yo o el usuario
     color =  element_box_message[posicion].value_of_css_property('background-color') # puede variar en el modo dark
     print("posicion: ",posicion)
     print("color: ",color) 
-    if color == "rgba(220, 248, 198, 1)" or color == "rgba(5, 97, 98, 1)": #estos 2 son tanto para modo blanco como modo dark
+    if color == "rgba(220, 248, 198, 1)" or color == "rgba(5, 97, 98, 1)": # (verde)estos 2 son tanto para modo blanco como modo dark
         print("CHAT ATENDIDO")
         return
-    #element_message = element_box_message[posicion].find_element(By.CLASS_NAME,"i0jNr selectable-text copyable-text")
-    element_message = element_box_message[posicion].find_elements(By.CLASS_NAME,"_1Gy50") # texto dentro de la caja
-    print("mensaje:" ,element_message)
-    message = element_message[0].text.lower().strip()
-    print("MENSAJE RECIBIDO :", message)
-    return normalizar(message)        
-    
+    else: #(gris, o de la otra persona)
+        #element_message = element_box_message[posicion].find_element(By.CLASS_NAME,"i0jNr selectable-text copyable-text")
+        element_message = element_box_message[posicion].find_elements(By.CLASS_NAME,"_1Gy50") # texto dentro de la caja
+        print("mensaje:" ,element_message)
+        message = element_message[0].text.lower().strip()
+        print("MENSAJE RECIBIDO :", message)
+        return normalizar(message)        
+        #return message
 
+
+
+
+def procesar_mensaje(message :str):
+    #chatbox = driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
+    chatbox = driver.find_element(By.XPATH,'//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p') # se copia el path de la caja de texto donde se escribe
+        
+    response = preparar_respuesta(message) # AQUI CONECTAMOS CON EL CHATBOT!!!!!!!!!!!
+    print("response: ",response)
+
+    #chatbox.send_keys(response).click()
+
+    from selenium.webdriver.common.keys import Keys
+    chatbox.send_keys(response, Keys.ENTER)
+    #driver.find_element_by_id("button").click()
 
 
 # _________________________________MAIN________________________
