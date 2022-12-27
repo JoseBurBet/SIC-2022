@@ -5,6 +5,7 @@ from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 import re # para limpiar los string
 from unicodedata import normalize #normalizar caracteres del español
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 filepath = "./whatsapp_session.txt"
 driver = webdriver
@@ -37,9 +38,6 @@ def crear_driver_session():
     return new_driver
 
 
-def whatsapp_bot_init():
-    global driver
-    driver = crear_driver_session()
 
 
 def buscar_chats():
@@ -108,20 +106,49 @@ def identificar_mensaje():
         #return message
 
 
+def preparar_respuesta(message :str):
+    print("PREPARANDO RESPUESTA")
 
+    if message.__contains__("hola"): # simililar a if message=="hola"
+        response = "prueba exitosa \n" 
+    elif message.__contains__("gracias"):
+        response = "Ha sido un placer"
+    else:        
+        response = "mensaje no identificado"
+
+    return response
 
 def procesar_mensaje(message :str):
     #chatbox = driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
     chatbox = driver.find_element(By.XPATH,'//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p') # se copia el path de la caja de texto donde se escribe
-        
+                                #en este caso xpath en vez de class porque no reconocia el class        
     response = preparar_respuesta(message) # AQUI CONECTAMOS CON EL CHATBOT!!!!!!!!!!!
     print("response: ",response)
 
     #chatbox.send_keys(response).click()
 
-    from selenium.webdriver.common.keys import Keys
+    
     chatbox.send_keys(response, Keys.ENTER)
+
     #driver.find_element_by_id("button").click()
+
+
+def whatsapp_bot_init():
+    global driver
+    driver = crear_driver_session()
+
+    while True:
+        if not buscar_chats(): # busca si hay chats, y si tienen mensajes sin leer
+            sleep(10)
+            continue
+        
+        message = identificar_mensaje()
+
+        if message == None:
+            continue
+        else:
+            procesar_mensaje(message)
+
 
 
 # _________________________________MAIN________________________
@@ -129,4 +156,4 @@ def procesar_mensaje(message :str):
 # Driver program
 if __name__ == '__main__':       
     whatsapp_bot_init()
-    buscar_chats()
+    
