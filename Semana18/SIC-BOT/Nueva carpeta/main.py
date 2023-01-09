@@ -37,12 +37,31 @@ def crear_driver_session():
 
     return new_driver
 
-
+def checkMensajes(chat):
+    '''Funcion para verificar si existen mensajes por leer,
+    en algunos casos la class=_1pJ9J, no se consigue,
+    por eso se agrego la exception, y retorna verdadero (True) 
+    si el bloque que se esta verificando tiene mensajes sin leer'''
+    try:
+        numMens = chat.find_element(By.CLASS_NAME,"_1pJ9J").text                
+        
+        msleer = re.findall('\d+' ,numMens)        
+        
+        if len(msleer) != 0:
+            pending = True
+             
+        else:
+            # Usuarios silenciados, el simbolo posee el mismo nombre de la clase pero no contiene decimales
+            pending = False
+        
+    except:        
+        pending = False
+    return pending
 
 
 def buscar_chats():
     print("BUSCANDO CHATS")
-    sleep(5)
+    sleep(2)
     #print(driver.find_elements(By.CLASS_NAME,"zaKsw"))
     print(len(driver.find_elements(By.CLASS_NAME,"_1RAKT")))
     # si la longitud es 0 es porque tengo chat abierto, si es dif de 0 es porque  no hay chat abierto
@@ -62,16 +81,37 @@ def buscar_chats():
             print("DETECTANDO MENSAJES SIN LEER")
             print(len(chats))
 
-            chats_mensajes = chat.find_elements(By.CLASS_NAME,"_1pJ9J") # el circulo de mensaje no leido
-            #print("mensajes sin leer: ",len(chats_mensajes))
-            #print(chat)
-            if len(chats_mensajes) == 0:
-                print("CHATS ATENDIDOS")
-                continue
-            else:
-                #print("else")
-                chat.click() # abre el chat
+#_________________________________________________________________________________________
+            porresponder = checkMensajes(chat) # Verificar si existen mensajes por leer
+            
+            # Condicion para entrar en cada conversacion (Solo entra si existen mensajes sin leer)
+            if porresponder:
+                
+                # Si existen mensajes sin responder debemos dar click sobre ese chat.            
+                chat.click()  # Se da click sobre la conversacion.
+                sleep(2)
                 return True
+            else:
+                print("CHATS ATENDIDOS")
+#                continue
+                
+#_________________________________________________________________________________________
+
+
+
+
+#                                                        # _1pJ9J tambien se activa con los chats silenciados!!!!!
+#            chats_mensajes = chat.find_elements(By.CLASS_NAME,"_1pJ9J") # el circulo de mensaje no leido
+#            #print("mensajes sin leer: ",len(chats_mensajes))
+#            #print(chat)
+#            if len(chats_mensajes) == 0:
+#                print("CHATS ATENDIDOS")
+#                continue
+#            else:
+#                print("\n ___________entra al else___________ \n ")
+#                chat.click() # abre el chat
+#                sleep(3)
+#                return True
     return False
 
 def normalizar(message: str):
@@ -86,25 +126,40 @@ def normalizar(message: str):
 
 def identificar_mensaje():
     element_box_message = driver.find_elements(By.CLASS_NAME,"_22Msk") # todos los cuadritos de mensajes 
-    print("mensajes:", element_box_message)
+    #print("mensajes:", element_box_message)
     posicion = len(element_box_message) -1
-    
-    #con el color nos damos cuenta si hablo yo o el usuario
-    color =  element_box_message[posicion].value_of_css_property('background-color') # puede variar en el modo dark
-    print("posicion: ",posicion)
-    print("color: ",color) 
-    if color == "rgba(220, 248, 198, 1)" or color == "rgba(5, 97, 98, 1)": # (verde)estos 2 son tanto para modo blanco como modo dark
-        print("CHAT ATENDIDO")
-        return
-    else: #(gris, o de la otra persona)
-        #element_message = element_box_message[posicion].find_element(By.CLASS_NAME,"i0jNr selectable-text copyable-text")
-        element_message = element_box_message[posicion].find_elements(By.CLASS_NAME,"_1Gy50") # texto dentro de la caja
-        print("mensaje:" ,element_message)
-        message = element_message[0].text.lower().strip()
-        print("MENSAJE RECIBIDO :", message)
-        return normalizar(message)        
-        #return message
 
+
+
+
+    element_message = element_box_message[posicion].find_elements(By.CLASS_NAME,"_1Gy50") # texto dentro de la caja
+    #print("mensaje:" ,element_message)
+    message = element_message[0].text.lower().strip()
+    print("MENSAJE RECIBIDO :", message)
+    return normalizar(message) 
+
+
+#________________________________________________________________________________________
+    
+##    #con el color nos damos cuenta si hablo yo o el usuario
+##    color =  element_box_message[posicion].value_of_css_property('background-color') # puede variar en el modo dark
+##    print("posicion: ",posicion)
+##    print("color: ",color)
+##    col=str(color)
+##    print(col)
+##    if color != col: 
+##    #if color == "rgba(220, 248, 198, 1)" or color == "rgba(5, 97, 98, 1)": # (verde)estos 2 son tanto para modo blanco como modo dark
+##        print("CHAT ATENDIDO")
+##        return
+##    else: #(gris, o de la otra persona)
+##        #element_message = element_box_message[posicion].find_element(By.CLASS_NAME,"i0jNr selectable-text copyable-text")
+##        element_message = element_box_message[posicion].find_elements(By.CLASS_NAME,"_1Gy50") # texto dentro de la caja
+##        #print("mensaje:" ,element_message)
+##        message = element_message[0].text.lower().strip()
+##        print("MENSAJE RECIBIDO :", message)
+##        return normalizar(message)        
+##        #return message
+#_________________________________________________________________________________________
 
 def preparar_respuesta(message :str):
     print("PREPARANDO RESPUESTA")
@@ -129,6 +184,8 @@ def procesar_mensaje(message :str):
 
     
     chatbox.send_keys(response, Keys.ENTER)
+    sleep(2)
+    webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform() # generar ESC para salir de la conversacion
 
     #driver.find_element_by_id("button").click()
 
@@ -139,7 +196,10 @@ def whatsapp_bot_init():
 
     while True:
         if not buscar_chats(): # busca si hay chats, y si tienen mensajes sin leer
-            sleep(10)
+            sleep(5)
+
+            # aqui debo hacer un control para que retroceda atras donde no hay chats abiertos
+            # y lo vamos a hacer regrescando la pagina
             continue
         
         message = identificar_mensaje()
@@ -156,4 +216,12 @@ def whatsapp_bot_init():
 # Driver program
 if __name__ == '__main__':       
     whatsapp_bot_init()
-    
+
+
+#revisar el click que abre los mensajes no leidos -hecho
+#revisar los colores del ultimo mensaje que yo envio - cambio de logica
+#revisar la funcion normalize -XXX
+#conectar el chatbot
+#conectar el keepsession
+
+
