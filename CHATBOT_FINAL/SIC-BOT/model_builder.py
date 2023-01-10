@@ -139,8 +139,10 @@ def start_model():
 
 
 # _________________________________MAIN________________________
+from intents_reference import start_intents
 
 # Driver program
-if __name__ == '__main__':       
+if __name__ == '__main__':
+    start_intents()
     start_model()
 

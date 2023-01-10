@@ -20,4 +20,5 @@ Requisitos:
 Instrucciones:
 
 ejecute el archivo requirements.py 
+ejecute el archivo model_builder.py
 ejecute el SIC-BOT.bat  y a continuacion logueese en whatsapp mediante el codigo QR

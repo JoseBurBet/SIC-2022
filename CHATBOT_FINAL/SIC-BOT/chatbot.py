@@ -100,6 +100,17 @@ def start_bot():
         res=chatbot_response(texto_us)
         print(res)
     
+##########################################################
+
+def bot(texto_us):
+        #start_chatbot()
+        res=chatbot_response(texto_us)
+        return res
+
+def start_chatbot():
+    start_intents()
+    start_model()
+    #start_bot()
     
     
 # _________________________________MAIN________________________
@@ -108,7 +119,12 @@ from model_builder import start_model
 
 
 # Driver program
-if __name__ == '__main__':       
-    start_intents()
-    start_model()
-    start_bot()    
+#if __name__ == '__main__':
+
+    #para ejecutar en consola:
+    #start_bot()
+
+    #para integrar con whatsapp
+    #answer=bot(texto_us)
+    
+      
