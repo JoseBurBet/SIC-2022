@@ -63,6 +63,22 @@ def start_intents():
                                  ],
                      "context":[""]
                     },
+
+                    
+                    {"tag":"citas",
+                     "patterns":["cita","gracias"],
+                     "responses":["puede agendar su cita a través del sigueinte link : https://www.steamvirtual.com/login/index.php"
+                                 ],
+                     "context":[""]                    
+                    },
+                    {"tag":"catalogo",
+                     "patterns":["catalogo"],
+                     "responses":["puede ver el catalogo a través del sigueinte link : https://www.steamvirtual.com/login/index.php"
+                                 ],
+                     "context":[""]                    
+                    },
+
+                    
                     {"tag":"norespuesta",
                      "patterns":[""],
                      "responses":["no se detecto una respuesta"

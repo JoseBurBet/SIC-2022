@@ -65,6 +65,31 @@
             ]
         },
         {
+            "tag": "citas",
+            "patterns": [
+                "cita",
+                "gracias"
+            ],
+            "responses": [
+                "puede agendar su cita a trav\u00e9s del sigueinte link : https://www.steamvirtual.com/login/index.php"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "catalogo",
+            "patterns": [
+                "catalogo"
+            ],
+            "responses": [
+                "puede ver el catalogo a trav\u00e9s del sigueinte link : https://www.steamvirtual.com/login/index.php"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
             "tag": "norespuesta",
             "patterns": [
                 ""

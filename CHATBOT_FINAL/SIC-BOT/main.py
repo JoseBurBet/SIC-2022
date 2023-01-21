@@ -81,7 +81,7 @@ def buscar_chats():
         #print("len chats: ",len(chats))
         for chat in chats:
             print("DETECTANDO chats")
-            print("mensajes sin leer: ",len(chats))
+            print("chats: ",len(chats))
 
 
             porresponder = checkMensajes(chat) # Verificar si existen mensajes por leer
@@ -146,7 +146,7 @@ def procesar_mensaje(message :str):
 
         
     chatbox.send_keys(response, Keys.ENTER)
-    sleep(2)
+    sleep(1)
     webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
     # generar ESC para salir de la conversacion
 
